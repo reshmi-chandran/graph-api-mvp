@@ -33,17 +33,19 @@ flowchart LR
 ### Component View (Mermaid)
 ```mermaid
 flowchart TB
-    subgraph Frontend (SPA)
+    subgraph Frontend_SPA[Frontend (SPA)]
         UI[Dashboard UI: organic shape, metrics cards]
         AuthClient[MSAL / PKCE Client]
     end
-    subgraph Backend API
+
+    subgraph Backend_API[Backend API]
         AuthAPI[/auth/callback]
         MetricsAPI[/metrics]
         GraphClient[Graph SDK wrapper]
         MetricsCalc[Metrics derivation]
         Cache[(Short-lived cache)]
     end
+
     AzureAD[(Azure AD)]
     Graph[(Microsoft Graph)]
 
