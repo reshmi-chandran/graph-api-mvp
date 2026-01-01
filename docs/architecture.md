@@ -22,7 +22,9 @@ flowchart LR
     User --> FE[React/Vue SPA]
     FE -->|Metrics API /metrics| BE[Backend Service]
     BE -->|/token + /calendar events| Graph[Microsoft Graph API]
-    subgraph EU Region (AWS/Azure)
+    subgraph EU_Region
+      direction TB
+      %% EU-based hosting boundary (AWS/Azure)
       FE
       BE
       Cache[(Ephemeral cache)]
@@ -33,14 +35,14 @@ flowchart LR
 ### Component View (Mermaid)
 ```mermaid
 flowchart TB
-    subgraph Frontend_SPA[Frontend (SPA)]
+    subgraph Frontend_SPA["Frontend (SPA)"]
         UI[Dashboard UI: organic shape, metrics cards]
         AuthClient[MSAL / PKCE Client]
     end
 
-    subgraph Backend_API[Backend API]
-        AuthAPI[/auth/callback]
-        MetricsAPI[/metrics]
+    subgraph Backend_API["Backend API"]
+        AuthAPI[/auth/callback/]
+        MetricsAPI[/metrics/]
         GraphClient[Graph SDK wrapper]
         MetricsCalc[Metrics derivation]
         Cache[(Short-lived cache)]
@@ -49,9 +51,11 @@ flowchart TB
     AzureAD[(Azure AD)]
     Graph[(Microsoft Graph)]
 
-    UI --> AuthClient --> AzureAD
+    UI --> AuthClient
+    AuthClient --> AzureAD
     UI --> MetricsAPI
-    MetricsAPI --> GraphClient --> Graph
+    MetricsAPI --> GraphClient
+    GraphClient --> Graph
     MetricsAPI --> Cache
     MetricsAPI --> MetricsCalc
 ```
